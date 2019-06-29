@@ -55,7 +55,64 @@ def get_move():
 
 def update_board(board, move):
     # Update the board according to move
-    print("Updating board")
+    print("Update board")
+
+
+def convert_letter_to_col(col):
+    # Valid range is a to h (8 columns)
+    if col == 'a':
+        return 0
+    elif col == 'b':
+        return 1
+    elif col == 'c':
+        return 2
+    elif col == 'd':
+        return 3
+    elif col == 'e':
+        return 4
+    elif col == 'f':
+        return 5
+    elif col == 'g':
+        return 6
+    elif col == 'h':
+        return 7
+    else:
+        # Not a valid column
+        return -1
+
+
+def swap_pieces(board, move):
+    # Swap pieces on board according to move
+    # Get original position
+    origrow = int(move[1]) - 1
+    origcol = convert_letter_to_col(move[0])
+
+    # Get adjacent position
+    # Up
+    if move[2] == 'u':
+        newrow = origrow + 1
+        newcol = origcol
+    # Down
+    elif move[2] == 'd':
+        newrow = origrow - 1
+        newcol = origcol
+    # Left
+    elif move[2] == 'l':
+        newrow = origrow
+        newcol = origcol + 1
+    # Right
+    elif move[2] == 'r':
+        newrow = origrow
+        newcol = origcol - 1
+    else:
+        # Value not valid
+        newrow = origrow
+        newcol = origcol
+
+    # Swap objects in two positions
+    temp = board[origrow][origcol]
+    board[origrow][origcol] = board[newrow][newcol]
+    board[newrow][newcol] = temp
 
 
 def do_round(board):
@@ -73,7 +130,7 @@ def do_round(board):
 
 
 # State main variables
-gv_score = 0
+gv_score: int = 0
 gv_goal_score = 100
 gv_turn = 0
 gv_board = [[0, 0, 0, 0, 0, 0, 0, 0],
