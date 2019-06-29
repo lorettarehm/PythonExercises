@@ -1,2 +1,2 @@
 # PythonExercises
-Repository for Python learnin exercises
+Repository for Python learning exercises
