@@ -30,16 +30,41 @@ def continue_game(current_score, goal_score=100):
         return True
 
 
-def do_round():
+def draw_board(board):
+    # Display the board to the screen
+    print("Drawing board")
+
+
+def get_move():
+    # Get the move from the user
+    print("Getting move")
+    return "blue"
+
+
+def update_board(board, move):
+    # Update the board according to move
+    print("Updating board")
+
+
+def do_round(board):
     # Perform one round of the game
+    # Display current round
+    draw_board(board)
+    # Get move
+    move = get_move()
+    # Update board
+    update_board(gv_board, move)
     print("Doing one round")
+    # Update turn number
+    global gv_turn
+    gv_turn += 1
 
 
 # State main variables
 gv_score = 0
 gv_goal_score = 100
 gv_turn = 0
-mv_board = [[0, 0, 0, 0, 0, 0, 0, 0],
+gv_board = [[0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
@@ -49,9 +74,9 @@ mv_board = [[0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0]]
 
 # Initialize game
-initialize(mv_board)
+initialize(gv_board)
 
 # Loop while game not over
 while continue_game(gv_score, gv_goal_score):
     # Do a round of the game
-    do_round()
+    do_round(gv_board)
