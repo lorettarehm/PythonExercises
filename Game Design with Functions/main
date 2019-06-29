@@ -1,12 +1,22 @@
+# Global score
+gp_score = 50
+
+# Global goal score
+gp_goal_score = 100
+
+
 def initialize():
     # Initialize game
     print("Initializing")
 
 
-def continue_game():
+def continue_game(current_score, goal_score=100):
     # Return false if game should end, true if game is not over
     print("Checking to see if we should continue")
-    return False
+    if current_score >= goal_score:
+        return False
+    else:
+        return True
 
 
 def do_round():
@@ -18,6 +28,6 @@ def do_round():
 initialize()
 
 # Loop while game not over
-while continue_game():
+while continue_game(gp_score, gp_goal_score):
     # Do a round of the game
     do_round()
