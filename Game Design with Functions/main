@@ -1,13 +1,18 @@
-# Global score
-gp_score = 50
-
-# Global goal score
-gp_goal_score = 100
-
-
-def initialize():
+def initialize(board):
     # Initialize game
-    print("Initializing")
+    # Initialize grid
+    initialize_grid(board)
+    # Initialize score
+    global gv_goal_score
+    gv_goal_score = 0
+    # Initialize turn number
+    global gv_turn
+    gv_turn = 1
+
+
+def initialize_grid(gv_board):
+    # Initialize grid by reading in from file
+    print("Initializing grid")
 
 
 def continue_game(current_score, goal_score=100):
@@ -24,10 +29,23 @@ def do_round():
     print("Doing one round")
 
 
+# State main variables
+gv_score = 0
+gv_goal_score = 100
+gv_turn = 0
+mv_board = [[0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]]
+
 # Initialize game
-initialize()
+initialize(mv_board)
 
 # Loop while game not over
-while continue_game(gp_score, gp_goal_score):
+while continue_game(gv_score, gv_goal_score):
     # Do a round of the game
     do_round()
