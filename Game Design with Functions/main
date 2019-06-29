@@ -1,3 +1,7 @@
+# Imports
+from random import choice
+
+
 def initialize(board):
     # Initialize game
     # Initialize grid
@@ -10,9 +14,11 @@ def initialize(board):
     gv_turn = 1
 
 
-def initialize_grid(gv_board):
+def initialize_grid(board):
     # Initialize grid by reading in from file
-    print("Initializing grid")
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            board[i][j] = choice(['Q', 'R', 'S', 'T', 'U'])
 
 
 def continue_game(current_score, goal_score=100):
