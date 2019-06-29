@@ -7,8 +7,8 @@ def initialize(board):
     # Initialize grid
     initialize_grid(board)
     # Initialize score
-    global gv_goal_score
-    gv_goal_score = 0
+    global gv_score
+    gv_score = 0
     # Initialize turn number
     global gv_turn
     gv_turn = 1
@@ -32,7 +32,19 @@ def continue_game(current_score, goal_score=100):
 
 def draw_board(board):
     # Display the board to the screen
-    print("Drawing board")
+    # Draw blank line first
+    print("\n")
+    # Calculate 4 characters per column on first row
+    print(" " + ((4 * len(board[0])) + 1) * "-")
+    # Now draw rows from 8 down to 1
+    for i in range(len(board) - 1, -1, -1):
+        # Draw each row
+        line_to_draw = ""
+        for j in range(len(board[i])):
+            line_to_draw += " | " + board[i][j]
+        line_to_draw += " | "
+        print(line_to_draw)
+        print(" " + ((4 * len(board[0])) + 1) * "-")
 
 
 def get_move():
