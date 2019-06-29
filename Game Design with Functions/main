@@ -1,0 +1,23 @@
+def initialize():
+    # Initialize game
+    print("Initializing")
+
+
+def continue_game():
+    # Return false if game should end, true if game is not over
+    print("Checking to see if we should continue")
+    return False
+
+
+def do_round():
+    # Perform one round of the game
+    print("Doing one round")
+
+
+# Initialize game
+initialize()
+
+# Loop while game not over
+while continue_game():
+    # Do a round of the game
+    do_round()
