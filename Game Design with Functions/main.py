@@ -18,7 +18,7 @@ def initialize_grid(board):
     # Initialize grid by reading in from file
     for i in range(gv_board_size):
         for j in range(len(board[i])):
-            board[i][j] = choice(['Q', 'R', 'S', 'T', 'U'])
+            board[i][j] = choice(gv_board_choices)
 
 
 def continue_game(current_score, goal_score=100):
@@ -167,7 +167,7 @@ def fill_blanks(board):
     for i in range(gv_board_size):
         for j in range(gv_board_size):
             if board[i][j] == 0:
-                board[i][j] = choice(['Q', 'R', 'S', 'T', 'U'])
+                board[i][j] = choice(gv_board_choices)
 
 
 def update_board(board, move):
@@ -267,6 +267,7 @@ gv_board_size = len(gv_board)
 gv_points_per_match = 5
 gv_matches = 0
 gv_matches_list = []
+gv_board_choices = ['\U00002660', '\U00002663', '\U00002665', '\U00002666']
 
 # Initialize game
 initialize(gv_board)
