@@ -97,6 +97,17 @@ def remove_pieces(board):
                 remove[i + 1][j] = 1
                 remove[i + 2][j] = 1
 
+    # Eliminate those marked
+    global gv_score
+    removed_any = False
+    for i in range(gv_board_size):
+        for j in range(gv_board_size):
+            if remove[i][j] == 1
+                board[i][j] = 0
+                gv_score += 1
+                removed_any = True
+    return removed_any
+
 
 def drop_pieces(board):
     # Drop pieces to fill in blanks
