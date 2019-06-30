@@ -34,19 +34,19 @@ def draw_board(board):
     # Draw blank line first
     print("\n")
     # Calculate 4 characters per column on first row
-    print(" " + ((4 * gv_board_size) + 1) * "-")
+    print("  " + ((4 * gv_board_size) + 1) * "-")
     # Print board header
-    print(" | a | b | c | d | e | f | g |")
-    print(" " + ((4 * gv_board_size) + 1) * "-")
+    print("   | a | b | c | d | e | f | g | h |")
+    print(" " + ((4 * gv_board_size) + 3) * "-")
     # Now draw rows from 8 down to 1
     for i in range(gv_board_size - 1, -1, -1):
         # Draw each row
-        line_to_draw = ""
+        line_to_draw = " " + str(i + 1)
         for j in range(gv_board_size):
             line_to_draw += " | " + board[i][j]
         line_to_draw += " | "
         print(line_to_draw)
-        print(" " + ((4 * len(board[0])) + 1) * "-")
+        print(" " + ((4 * gv_board_size) + 3) * "-")
 
 
 def is_valid(move):
@@ -88,6 +88,7 @@ def get_move():
     print("For example, e3u would swap position e3 with the one above and f7r would swap f7 to the right")
 
     # Get Move
+    print("\n")
     move = input("Enter move: ")
 
     # Loop until move is valid
@@ -134,7 +135,7 @@ def remove_pieces(board):
         for j in range(gv_board_size):
             if remove[i][j] == 1:
                 board[i][j] = 0
-                gv_score += 1
+                gv_score += 10
                 removed_any = True
     return removed_any
 
@@ -262,5 +263,7 @@ initialize(gv_board)
 
 # Loop while game not over
 while continue_game(gv_score, gv_goal_score):
+    # Print current score
+    print("Score: " + str(gv_score))
     # Do a round of the game
     do_round(gv_board)
