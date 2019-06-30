@@ -16,14 +16,13 @@ def initialize(board):
 
 def initialize_grid(board):
     # Initialize grid by reading in from file
-    for i in range(len(board)):
+    for i in range(gv_board_size):
         for j in range(len(board[i])):
             board[i][j] = choice(['Q', 'R', 'S', 'T', 'U'])
 
 
 def continue_game(current_score, goal_score=100):
     # Return false if game should end, true if game is not over
-    print("Checking to see if we should continue")
     if current_score >= goal_score:
         return False
     else:
@@ -35,27 +34,102 @@ def draw_board(board):
     # Draw blank line first
     print("\n")
     # Calculate 4 characters per column on first row
-    print(" " + ((4 * len(board[0])) + 1) * "-")
+    print(" " + ((4 * gv_board_size) + 1) * "-")
     # Now draw rows from 8 down to 1
-    for i in range(len(board) - 1, -1, -1):
+    for i in range(gv_board_size - 1, -1, -1):
         # Draw each row
         line_to_draw = ""
-        for j in range(len(board[i])):
+        for j in range(gv_board_size):
             line_to_draw += " | " + board[i][j]
         line_to_draw += " | "
         print(line_to_draw)
         print(" " + ((4 * len(board[0])) + 1) * "-")
 
 
+def is_valid(move):
+    # Returns true if the move is valid, false otherwise
+    # Check length of move
+    if len(move) != 3:
+        return False
+
+    # Check that the space and direction are valid
+    if not (move[0] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']):
+        return False
+    if not (move[1] in ['1', '2', '3', '4', '5', '6', '7', '8']):
+        return False
+    if not (move[2] in ['u', 'd', 'l', 'r']):
+        return False
+
+
 def get_move():
     # Get the move from the user
-    print("Getting move")
-    return "blue"
+    move = input("Enter move: ")
+    return move
+
+
+def remove_pieces(board):
+    # Remove 3-in-a-row and 3-in-a-column pieces
+    # Create board to store remove-or-not
+    remove = [[0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0]]
+
+    # Go through rows
+    for i in range(gv_board_size):
+        for j in range(gv_board_size - 2):
+            if (board[i][j] == board[i][j + 1]) and (board[i][j] == board[i][j + 2]):
+                # Three in a row are the same!
+                remove[i][j] = 1
+                remove[i][j + 1] = 1
+                remove[i][j + 2] = 1
+
+    # Go through columns
+    for j in range(gv_board_size):
+        for i in range(gv_board_size - 2):
+            if (board[i][j] == board[i + 1][j]) and (board[i][j] == board[i + 2][j]):
+                # Three in a column are the same!
+                remove[i][j] = 1
+                remove[i + 1][j] = 1
+                remove[i + 2][j] = 1
+
+
+def drop_pieces(board):
+    # Drop pieces to fill in blanks
+    for j in range(gv_board_size):
+        # Make list of pieces in the column
+        list_of_pieces = []
+        for i in range(gv_board_size):
+            if board[i][j] != 0:
+                list_of_pieces.append(board[i][j])
+        # Copy that list into column
+        for i in range(len(list_of_pieces)):
+            board[i][j] = list_of_pieces[i]
+        # Fill in remainder of columns with 0s
+        for i in range(len(list_of_pieces), 8):
+            board[i][j] = 0
+
+
+def fill_blanks(board):
+    # Fill blanks with random pieces
+    for i in range(gv_board_size):
+        for j in range(gv_board_size):
+            if board[i][j] == 0:
+                board[i][j] = choice(['Q', 'R', 'S', 'T', 'U'])
 
 
 def update_board(board, move):
     # Update the board according to move
-    print("Update board")
+    swap_pieces(board, move)
+    pieces_eliminated = True
+    while pieces_eliminated:
+        pieces_eliminated = remove_pieces(board)
+        drop_pieces(board)
+        fill_blanks(board)
 
 
 def convert_letter_to_col(col):
@@ -123,14 +197,13 @@ def do_round(board):
     move = get_move()
     # Update board
     update_board(gv_board, move)
-    print("Doing one round")
     # Update turn number
     global gv_turn
     gv_turn += 1
 
 
 # State main variables
-gv_score: int = 0
+gv_score = 0
 gv_goal_score = 100
 gv_turn = 0
 gv_board = [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -141,6 +214,7 @@ gv_board = [[0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0]]
+gv_board_size = len(gv_board)
 
 # Initialize game
 initialize(gv_board)
