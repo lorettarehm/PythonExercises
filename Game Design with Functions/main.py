@@ -35,6 +35,9 @@ def draw_board(board):
     print("\n")
     # Calculate 4 characters per column on first row
     print(" " + ((4 * gv_board_size) + 1) * "-")
+    # Print board header
+    print(" | a | b | c | d | e | f | g |")
+    print(" " + ((4 * gv_board_size) + 1) * "-")
     # Now draw rows from 8 down to 1
     for i in range(gv_board_size - 1, -1, -1):
         # Draw each row
@@ -60,10 +63,37 @@ def is_valid(move):
     if not (move[2] in ['u', 'd', 'l', 'r']):
         return False
 
+    # Check that the direction is valid for the given row/column
+    # Check that first column moves are not left
+    if (move[0] == 'a') and (move[2] == 'l'):
+        return False
+    # Check that last column moves are not right
+    if (move[0] == 'h') and (move[2] == 'r'):
+        return False
+    # Check that bottom row moves are not down
+    if (move[0] == '1') and (move[2] == 'd'):
+        return False
+    # Check that top row moves are not up
+    if (move[0] == '8') and (move[2] == 'u'):
+        return False
+
+    # No problems, so the move is valid
+    return True
+
 
 def get_move():
     # Get the move from the user
+    # Print instructions
+    print("Enter a move by specifying the space and the direction (u, d, l, r). Spaces should list column then row:")
+    print("For example, e3u would swap position e3 with the one above and f7r would swap f7 to the right")
+
+    # Get Move
     move = input("Enter move: ")
+
+    # Loop until move is valid
+    while not is_valid(move):
+        move = input("That is not a valid move! Enter another move: ")
+
     return move
 
 
@@ -102,7 +132,7 @@ def remove_pieces(board):
     removed_any = False
     for i in range(gv_board_size):
         for j in range(gv_board_size):
-            if remove[i][j] == 1
+            if remove[i][j] == 1:
                 board[i][j] = 0
                 gv_score += 1
                 removed_any = True
