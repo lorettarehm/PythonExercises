@@ -1,6 +1,6 @@
 # Imports
 from random import choice
-
+from colorama import Fore, Style
 
 def initialize(board):
     # Initialize game
@@ -86,7 +86,8 @@ def is_valid(move):
 def get_move():
     # Get the move from the user
     # Print instructions
-    print("Enter a move by specifying the space and the direction (u, d, l, r). Spaces should list column then row:")
+    print(f"Enter a move by {Fore.CYAN}specifying{Style.RESET_ALL} the space and the direction (u, d, l, r).)"
+          f"Spaces should list {Fore.RED}column{Style.RESET_ALL} then {Fore.RED}row{Style.RESET_ALL}:")
     print("For example, e3u would swap position e3 with the one above and f7r would swap f7 to the right")
 
     # Get Move
