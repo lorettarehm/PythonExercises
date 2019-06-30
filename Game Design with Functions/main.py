@@ -112,6 +112,7 @@ def remove_pieces(board):
               [0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0, 0, 0]]
 
+    global gv_matches_list
     # Go through rows
     for i in range(gv_board_size):
         for j in range(gv_board_size - 2):
@@ -120,7 +121,6 @@ def remove_pieces(board):
                 remove[i][j] = 1
                 remove[i][j + 1] = 1
                 remove[i][j + 2] = 1
-                global gv_matches_list
                 gv_matches_list += [board[i][j], board[i][j + 1], board[i][j + 2]]
 
     # Go through columns
@@ -131,7 +131,6 @@ def remove_pieces(board):
                 remove[i][j] = 1
                 remove[i + 1][j] = 1
                 remove[i + 2][j] = 1
-                global gv_matches_list
                 gv_matches_list += [board[i][j], board[i + 1][j], board[i + 2][j]]
 
     # Eliminate those marked
