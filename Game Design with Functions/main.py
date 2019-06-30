@@ -24,6 +24,8 @@ def initialize_grid(board):
 def continue_game(current_score, goal_score=100):
     # Return false if game should end, true if game is not over
     if current_score >= goal_score:
+        print("Congratulations, you have WON scoring " + str(gv_score) + " in " + str(gv_matches) + " matches!!!")
+        print("Your list of matches was: " + str(gv_matches_list))
         return False
     else:
         return True
@@ -34,7 +36,7 @@ def draw_board(board):
     # Draw blank line first
     print("\n")
     # Calculate 4 characters per column on first row
-    print("  " + ((4 * gv_board_size) + 1) * "-")
+    print(" " + ((4 * gv_board_size) + 3) * "-")
     # Print board header
     print("   | a | b | c | d | e | f | g | h |")
     print(" " + ((4 * gv_board_size) + 3) * "-")
@@ -71,10 +73,10 @@ def is_valid(move):
     if (move[0] == 'h') and (move[2] == 'r'):
         return False
     # Check that bottom row moves are not down
-    if (move[0] == '1') and (move[2] == 'd'):
+    if (move[1] == '1') and (move[2] == 'd'):
         return False
     # Check that top row moves are not up
-    if (move[0] == '8') and (move[2] == 'u'):
+    if (move[1] == '8') and (move[2] == 'u'):
         return False
 
     # No problems, so the move is valid
@@ -118,6 +120,8 @@ def remove_pieces(board):
                 remove[i][j] = 1
                 remove[i][j + 1] = 1
                 remove[i][j + 2] = 1
+                global gv_matches_list
+                gv_matches_list += [board[i][j], board[i][j + 1], board[i][j + 2]]
 
     # Go through columns
     for j in range(gv_board_size):
@@ -127,15 +131,18 @@ def remove_pieces(board):
                 remove[i][j] = 1
                 remove[i + 1][j] = 1
                 remove[i + 2][j] = 1
+                global gv_matches_list
+                gv_matches_list += [board[i][j], board[i + 1][j], board[i + 2][j]]
 
     # Eliminate those marked
-    global gv_score
+    global gv_score, gv_matches
     removed_any = False
     for i in range(gv_board_size):
         for j in range(gv_board_size):
             if remove[i][j] == 1:
                 board[i][j] = 0
-                gv_score += 10
+                gv_score += gv_points_per_match
+                gv_matches += 1
                 removed_any = True
     return removed_any
 
@@ -200,35 +207,35 @@ def convert_letter_to_col(col):
 def swap_pieces(board, move):
     # Swap pieces on board according to move
     # Get original position
-    origrow = int(move[1]) - 1
-    origcol = convert_letter_to_col(move[0])
+    original_row = int(move[1]) - 1
+    original_column = convert_letter_to_col(move[0])
 
     # Get adjacent position
     # Up
     if move[2] == 'u':
-        newrow = origrow + 1
-        newcol = origcol
+        new_row = original_row + 1
+        new_column = original_column
     # Down
     elif move[2] == 'd':
-        newrow = origrow - 1
-        newcol = origcol
+        new_row = original_row - 1
+        new_column = original_column
     # Left
     elif move[2] == 'l':
-        newrow = origrow
-        newcol = origcol + 1
+        new_row = original_row
+        new_column = original_column - 1
     # Right
     elif move[2] == 'r':
-        newrow = origrow
-        newcol = origcol - 1
+        new_row = original_row
+        new_column = original_column + 1
     else:
         # Value not valid
-        newrow = origrow
-        newcol = origcol
+        new_row = original_row
+        new_column = original_column
 
     # Swap objects in two positions
-    temp = board[origrow][origcol]
-    board[origrow][origcol] = board[newrow][newcol]
-    board[newrow][newcol] = temp
+    temp = board[original_row][original_column]
+    board[original_row][original_column] = board[new_row][new_column]
+    board[new_row][new_column] = temp
 
 
 def do_round(board):
@@ -257,6 +264,10 @@ gv_board = [[0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0]]
 gv_board_size = len(gv_board)
+# Defining points per match of 3 pieces
+gv_points_per_match = 5
+gv_matches = 0
+gv_matches_list = []
 
 # Initialize game
 initialize(gv_board)
